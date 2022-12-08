@@ -1,0 +1,12 @@
+{
+  "socket": "LGA_1700",
+  "family": "Intel",
+  "integratedGraphicCoreName": "Intel graphic 730",
+  "releaseYear": 2021,
+  "baseFrequency": "3000",
+  "tdp": "60",
+  "technicalProcess": "10",
+  "price": "12000",
+  "name": "Intel Core i5 12400",
+  "manufacturer": "INTEL"
+}
