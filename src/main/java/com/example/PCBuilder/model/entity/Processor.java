@@ -5,10 +5,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 
 @Entity
 @Data
+@FieldNameConstants(innerTypeName = "ProcessorFields")
 @Table(name = "processor")
 public class Processor extends BaseData {
     @Column(name = "socket", nullable = false)

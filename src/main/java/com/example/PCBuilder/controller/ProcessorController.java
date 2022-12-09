@@ -1,12 +1,22 @@
 package com.example.PCBuilder.controller;
 
 import com.example.PCBuilder.model.dto.ProcessorDto;
+import com.example.PCBuilder.model.dto.filter.ProcessorFilter;
+import com.example.PCBuilder.model.entity.Processor;
 import com.example.PCBuilder.service.ProcessorService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Parameter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,10 +32,45 @@ public class ProcessorController {
         return processorService.create(dto);
     }
 
-//    @PutMapping("/{processor-id}")
-//    public void update(
-//            @PathVariable("processor-id") String processorId,
-//            @RequestBody ProcessorDto dto) {
-//        processorService.update(processorId, dto);
-//    }
+    @GetMapping("/obtain-all")
+    public List<ProcessorDto> obtainAll() {
+        return processorService.obtainAll();
+    }
+
+    @GetMapping("/{processorId}")
+    public ProcessorDto getById(@PathVariable String processorId) {
+        return processorService.getById(processorId);
+    }
+
+    @PatchMapping("/{processorId}")
+    public void update(@PathVariable String processorId, @RequestBody ProcessorDto dto) {
+        processorService.update(processorId, dto);
+    }
+
+    @PostMapping("/search")
+    public Page<ProcessorDto> getByFilter(
+            @RequestBody(required = false) Optional<ProcessorFilter> filter,
+            @RequestParam int offset) {
+        return processorService.getByFilter(filter, offset);
+    }
+
+    @PostMapping("/sort-name-search")
+    public Page<ProcessorDto> getByFilterWithSortByNameInc(
+            @RequestBody(required = false) Optional<ProcessorFilter> filter,
+            @RequestParam int offset) {
+        return processorService.getByFilterWithSortByNameInc(filter, offset);
+    }
+
+    @PostMapping("/sort-price-search")
+    public Page<ProcessorDto> getByFilterWithSortByPriceInc(
+            @RequestBody(required = false) Optional<ProcessorFilter> filter,
+            @RequestParam int offset) {
+        return processorService.getByFilterWithSortByPriceInc(filter, offset);
+    }
+
+    @DeleteMapping("/{processorId}")
+    public void delete(@PathVariable String processorId) {
+        processorService.delete(processorId);
+    }
+
 }

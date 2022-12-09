@@ -16,8 +16,6 @@ public class ProcessorDto {
 
     private int releaseYear;
 
-    private String ram;
-
     private int baseFrequency;
 
     private int tdp;

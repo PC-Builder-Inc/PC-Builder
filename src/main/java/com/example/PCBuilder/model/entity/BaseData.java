@@ -5,9 +5,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.GenericGenerator;
 
 @Data
+@FieldNameConstants(innerTypeName = "BaseDataFields")
 @MappedSuperclass
 public abstract class BaseData {
 

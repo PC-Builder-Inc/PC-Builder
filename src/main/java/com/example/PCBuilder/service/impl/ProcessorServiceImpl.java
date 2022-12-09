@@ -10,6 +10,7 @@ import com.example.PCBuilder.repository.specification.ProcessorSpecification;
 import com.example.PCBuilder.service.MessageService;
 import com.example.PCBuilder.service.ProcessorService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.bridge.Message;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -33,6 +35,7 @@ public class ProcessorServiceImpl implements ProcessorService {
     private static final int PAGE_SIZE = 10;
 
     @Override
+    @Transactional
     public String create(ProcessorDto dto) {
         Processor processor = mapper.toEntity(dto);
         processorRepository.save(processor);
@@ -40,9 +43,26 @@ public class ProcessorServiceImpl implements ProcessorService {
     }
 
     @Override
+    @Transactional
+    public void update(String id, ProcessorDto dto) {
+        Processor processor = getProcessor(id);
+        mapper.merge(processor, dto);
+    }
+
+    @Override
+    public List<ProcessorDto> obtainAll() {
+        return processorRepository.findAll().stream().map(p -> mapper.toDto(p)).toList();
+    }
+
+    @Override
     public Page<ProcessorDto> getByFilter(Optional<ProcessorFilter> filter, int offset) {
         Pageable pageable = PageRequest.of(offset, PAGE_SIZE);
         return getPage(pageable, filter);
+    }
+
+    @Override
+    public ProcessorDto getById(String id) {
+        return mapper.toDto(getProcessor(id));
     }
 
     @Override
@@ -72,6 +92,13 @@ public class ProcessorServiceImpl implements ProcessorService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         messageService.get("processor.validation.does.not.found.by.id", processorId)
                 ));
+    }
+
+    @Override
+    @Transactional
+    public void delete(String id) {
+        Processor toDelete = getProcessor(id);
+        processorRepository.delete(toDelete);
     }
 
 }
