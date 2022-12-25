@@ -12,7 +12,6 @@ import com.example.PCBuilder.service.ProcessorService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.bridge.Message;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+
+import static com.example.PCBuilder.config.ConfigConstants.PAGE_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +31,6 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final ProcessorMapper mapper;
     private final ProcessorSpecification specification;
     private final MessageService messageService;
-    private static final int PAGE_SIZE = 10;
 
     @Override
     @Transactional

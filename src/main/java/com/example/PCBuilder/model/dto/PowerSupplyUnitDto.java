@@ -4,7 +4,7 @@ import com.example.PCBuilder.model.enums.Manufacturer;
 import lombok.Data;
 
 @Data
-public class PowerSupplyDto {
+public class PowerSupplyUnitDto {
     private int power;
     private String name;
     private Manufacturer manufacturer;

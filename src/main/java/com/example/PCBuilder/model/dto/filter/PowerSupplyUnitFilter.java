@@ -5,9 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PowerSupplyFilter {
+public class PowerSupplyUnitFilter {
+
+    private Set<String> ids;
+
+    private Set<Integer> power;
 }

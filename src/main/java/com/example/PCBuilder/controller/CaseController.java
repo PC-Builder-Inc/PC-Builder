@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/case")
@@ -31,48 +31,48 @@ public class CaseController {
     }
 
     @GetMapping("/obtain-all")
-    public List<ProcessorDto> obtainAll() {
+    public List<CaseDto> obtainAll() {
         return caseService.obtainAll();
     }
 
-    @GetMapping("/{processorId}")
-    public ProcessorDto getById(@PathVariable String processorId) {
-        return caseService.getById(processorId);
+    @GetMapping("/{caseId}")
+    public CaseDto getById(@PathVariable String caseId) {
+        return caseService.getById(caseId);
     }
 
-    @PatchMapping("/{processorId}")
-    public void update(@PathVariable String processorId, @RequestBody CaseDto dto) {
-        caseService.update(processorId, dto);
+    @PatchMapping("/{caseId}")
+    public void update(@PathVariable String caseId, @RequestBody CaseDto dto) {
+        caseService.update(caseId, dto);
     }
 
     @PostMapping("/search")
-    public Page<ProcessorDto> getByFilter(
+    public Page<CaseDto> getByFilter(
             @RequestBody(required = false) Optional<CaseFilter> filter,
             @RequestParam int offset) {
         return caseService.getByFilter(filter, offset);
     }
 
     @PostMapping("/sort-name-search")
-    public Page<ProcessorDto> getByFilterWithSortByNameInc(
+    public Page<CaseDto> getByFilterWithSortByNameInc(
             @RequestBody(required = false) Optional<CaseFilter> filter,
             @RequestParam int offset) {
         return caseService.getByFilterWithSortByNameInc(filter, offset);
     }
 
     @PostMapping("/sort-price-search")
-    public Page<ProcessorDto> getByFilterWithSortByPriceInc(
+    public Page<CaseDto> getByFilterWithSortByPriceInc(
             @RequestBody(required = false) Optional<CaseFilter> filter,
             @RequestParam int offset) {
         return caseService.getByFilterWithSortByPriceInc(filter, offset);
     }
 
-    @DeleteMapping("/{processorId}")
+    @DeleteMapping("/{caseId}")
     public void delete(@PathVariable String processorId) {
         caseService.delete(processorId);
     }
 
     @GetMapping("/search-by-name")
-    public List<ProcessorDto> searchByName(@RequestParam String name){
+    public List<CaseDto> searchByName(@RequestParam String name){
         return caseService.searchByName(name);
     }
 

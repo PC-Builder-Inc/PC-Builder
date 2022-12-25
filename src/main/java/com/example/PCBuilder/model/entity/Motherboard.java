@@ -8,10 +8,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldNameConstants;
 
 @Getter
 @Setter
 @Entity
+@FieldNameConstants(innerTypeName = "MotherboardFields")
 @Table(name = "MOTHERBOARD")
 public class Motherboard extends BaseData {
 

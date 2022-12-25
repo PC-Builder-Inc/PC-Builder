@@ -1,8 +1,6 @@
 package com.example.PCBuilder.controller;
 
-import com.example.PCBuilder.model.dto.ProcessorDto;
 import com.example.PCBuilder.model.dto.RamDto;
-import com.example.PCBuilder.model.dto.filter.ProcessorFilter;
 import com.example.PCBuilder.model.dto.filter.RamFilter;
 import com.example.PCBuilder.service.RamService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/ram")
@@ -31,48 +29,48 @@ public class RamController {
     }
 
     @GetMapping("/obtain-all")
-    public List<ProcessorDto> obtainAll() {
+    public List<RamDto> obtainAll() {
         return ramService.obtainAll();
     }
 
-    @GetMapping("/{processorId}")
-    public ProcessorDto getById(@PathVariable String processorId) {
-        return ramService.getById(processorId);
+    @GetMapping("/{ramId}")
+    public RamDto getById(@PathVariable String ramId) {
+        return ramService.getById(ramId);
     }
 
-    @PatchMapping("/{processorId}")
-    public void update(@PathVariable String processorId, @RequestBody RamDto dto) {
-        ramService.update(processorId, dto);
+    @PatchMapping("/{ramId}")
+    public void update(@PathVariable String ramId, @RequestBody RamDto dto) {
+        ramService.update(ramId, dto);
     }
 
     @PostMapping("/search")
-    public Page<ProcessorDto> getByFilter(
+    public Page<RamDto> getByFilter(
             @RequestBody(required = false) Optional<RamFilter> filter,
             @RequestParam int offset) {
         return ramService.getByFilter(filter, offset);
     }
 
     @PostMapping("/sort-name-search")
-    public Page<ProcessorDto> getByFilterWithSortByNameInc(
+    public Page<RamDto> getByFilterWithSortByNameInc(
             @RequestBody(required = false) Optional<RamFilter> filter,
             @RequestParam int offset) {
         return ramService.getByFilterWithSortByNameInc(filter, offset);
     }
 
     @PostMapping("/sort-price-search")
-    public Page<ProcessorDto> getByFilterWithSortByPriceInc(
+    public Page<RamDto> getByFilterWithSortByPriceInc(
             @RequestBody(required = false) Optional<RamFilter> filter,
             @RequestParam int offset) {
         return ramService.getByFilterWithSortByPriceInc(filter, offset);
     }
 
-    @DeleteMapping("/{processorId}")
-    public void delete(@PathVariable String processorId) {
-        ramService.delete(processorId);
+    @DeleteMapping("/{ramId}")
+    public void delete(@PathVariable String ramId) {
+        ramService.delete(ramId);
     }
 
     @GetMapping("/search-by-name")
-    public List<ProcessorDto> searchByName(@RequestParam String name){
+    public List<RamDto> searchByName(@RequestParam String name){
         return ramService.searchByName(name);
     }
 

@@ -1,6 +1,5 @@
 package com.example.PCBuilder.controller;
 
-import com.example.PCBuilder.model.dto.ProcessorDto;
 import com.example.PCBuilder.model.dto.VideoCardDto;
 import com.example.PCBuilder.model.dto.filter.VideoCardFilter;
 import com.example.PCBuilder.service.VideoCardService;
@@ -14,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/gpu")
+@RequestMapping("/api/video-card")
 public class VideoCardController {
 
     private final VideoCardService videoCardService;
@@ -30,48 +29,48 @@ public class VideoCardController {
     }
 
     @GetMapping("/obtain-all")
-    public List<ProcessorDto> obtainAll() {
+    public List<VideoCardDto> obtainAll() {
         return videoCardService.obtainAll();
     }
 
-    @GetMapping("/{processorId}")
-    public ProcessorDto getById(@PathVariable String processorId) {
-        return videoCardService.getById(processorId);
+    @GetMapping("/{videoCardDtoId}")
+    public VideoCardDto getById(@PathVariable String videoCardDtoId) {
+        return videoCardService.getById(videoCardDtoId);
     }
 
-    @PatchMapping("/{processorId}")
-    public void update(@PathVariable String processorId, @RequestBody VideoCardDto dto) {
-        videoCardService.update(processorId, dto);
+    @PatchMapping("/{videoCardDtoId}")
+    public void update(@PathVariable String videoCardDtoId, @RequestBody VideoCardDto dto) {
+        videoCardService.update(videoCardDtoId, dto);
     }
 
     @PostMapping("/search")
-    public Page<ProcessorDto> getByFilter(
+    public Page<VideoCardDto> getByFilter(
             @RequestBody(required = false) Optional<VideoCardFilter> filter,
             @RequestParam int offset) {
         return videoCardService.getByFilter(filter, offset);
     }
 
     @PostMapping("/sort-name-search")
-    public Page<ProcessorDto> getByFilterWithSortByNameInc(
+    public Page<VideoCardDto> getByFilterWithSortByNameInc(
             @RequestBody(required = false) Optional<VideoCardFilter> filter,
             @RequestParam int offset) {
         return videoCardService.getByFilterWithSortByNameInc(filter, offset);
     }
 
     @PostMapping("/sort-price-search")
-    public Page<ProcessorDto> getByFilterWithSortByPriceInc(
+    public Page<VideoCardDto> getByFilterWithSortByPriceInc(
             @RequestBody(required = false) Optional<VideoCardFilter> filter,
             @RequestParam int offset) {
         return videoCardService.getByFilterWithSortByPriceInc(filter, offset);
     }
 
-    @DeleteMapping("/{processorId}")
-    public void delete(@PathVariable String processorId) {
-        videoCardService.delete(processorId);
+    @DeleteMapping("/{videoCardDtoId}")
+    public void delete(@PathVariable String videoCardDtoId) {
+        videoCardService.delete(videoCardDtoId);
     }
 
     @GetMapping("/search-by-name")
-    public List<ProcessorDto> searchByName(@RequestParam String name){
+    public List<VideoCardDto> searchByName(@RequestParam String name){
         return videoCardService.searchByName(name);
     }
 

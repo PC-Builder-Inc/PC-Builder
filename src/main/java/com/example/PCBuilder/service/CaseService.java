@@ -13,7 +13,7 @@ public interface CaseService {
 
     void update(String id, CaseDto dto);
 
-    ProcessorDto getById(String id);
+    CaseDto getById(String id);
 
     List<CaseDto> obtainAll();
 

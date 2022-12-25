@@ -1,7 +1,6 @@
 package com.example.PCBuilder.controller;
 
 import com.example.PCBuilder.model.dto.MotherboardDto;
-import com.example.PCBuilder.model.dto.ProcessorDto;
 import com.example.PCBuilder.model.dto.filter.MotherboardFilter;
 import com.example.PCBuilder.service.MotherboardService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/motherboard")
@@ -30,48 +29,48 @@ public class MotherboardController {
     }
 
     @GetMapping("/obtain-all")
-    public List<ProcessorDto> obtainAll() {
+    public List<MotherboardDto> obtainAll() {
         return motherboardService.obtainAll();
     }
 
-    @GetMapping("/{processorId}")
-    public ProcessorDto getById(@PathVariable String processorId) {
-        return motherboardService.getById(processorId);
+    @GetMapping("/{motherboardId}")
+    public MotherboardDto getById(@PathVariable String motherboardId) {
+        return motherboardService.getById(motherboardId);
     }
 
-    @PatchMapping("/{processorId}")
-    public void update(@PathVariable String processorId, @RequestBody MotherboardDto dto) {
-        motherboardService.update(processorId, dto);
+    @PatchMapping("/{motherboardId}")
+    public void update(@PathVariable String motherboardId, @RequestBody MotherboardDto dto) {
+        motherboardService.update(motherboardId, dto);
     }
 
     @PostMapping("/search")
-    public Page<ProcessorDto> getByFilter(
+    public Page<MotherboardDto> getByFilter(
             @RequestBody(required = false) Optional<MotherboardFilter> filter,
             @RequestParam int offset) {
         return motherboardService.getByFilter(filter, offset);
     }
 
     @PostMapping("/sort-name-search")
-    public Page<ProcessorDto> getByFilterWithSortByNameInc(
+    public Page<MotherboardDto> getByFilterWithSortByNameInc(
             @RequestBody(required = false) Optional<MotherboardFilter> filter,
             @RequestParam int offset) {
         return motherboardService.getByFilterWithSortByNameInc(filter, offset);
     }
 
     @PostMapping("/sort-price-search")
-    public Page<ProcessorDto> getByFilterWithSortByPriceInc(
+    public Page<MotherboardDto> getByFilterWithSortByPriceInc(
             @RequestBody(required = false) Optional<MotherboardFilter> filter,
             @RequestParam int offset) {
         return motherboardService.getByFilterWithSortByPriceInc(filter, offset);
     }
 
-    @DeleteMapping("/{processorId}")
-    public void delete(@PathVariable String processorId) {
-        motherboardService.delete(processorId);
+    @DeleteMapping("/{motherboardId}")
+    public void delete(@PathVariable String motherboardId) {
+        motherboardService.delete(motherboardId);
     }
 
     @GetMapping("/search-by-name")
-    public List<ProcessorDto> searchByName(@RequestParam String name) {
+    public List<MotherboardDto> searchByName(@RequestParam String name) {
         return motherboardService.searchByName(name);
     }
 
