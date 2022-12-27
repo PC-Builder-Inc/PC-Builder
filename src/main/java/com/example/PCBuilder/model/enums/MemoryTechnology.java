@@ -15,9 +15,9 @@ public enum MemoryTechnology {
  DDR5("DDR5"),
 
  //For Video cards
- GDDR3 ("GDDR3 "),
+ GDDR3("GDDR3"),
 
- GDDR4 ("GDDR4 "),
+ GDDR4("GDDR4"),
 
  GDDR5("GDDR5"),
 

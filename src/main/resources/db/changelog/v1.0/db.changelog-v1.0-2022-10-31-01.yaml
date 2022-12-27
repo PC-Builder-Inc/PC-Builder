@@ -1,0 +1,91 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2022-10-31-01
+      author: zezin.nik
+      changes:
+          - sql:
+              CREATE EXTENSION IF NOT EXISTS pgcrypto SCHEMA pg_catalog;
+        #=======================#
+        #       processor       #
+        #=======================#
+
+        - createTable:
+            tableName: processor
+            remarks: "Stores processors"
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  defaultValueComputed: "pg_catalog.gen_random_uuid()"
+                  type: varchar(100)
+                  remarks: "Primary key"
+              - column:
+                  name: name
+                  constraints:
+                    nullable: false
+                  type: varchar(100)
+                  remarks: "Processor's name"
+              - column:
+                  name: price
+                  constraints:
+                    nullable: false
+                  type: int
+                  remarks: "Price"
+              - column:
+                  name: manufacturer
+                  constraints:
+                    nullable: false
+                  type: varchar(100)
+                  remarks: "Manufacturer"
+              - column:
+                  name: socket
+                  constraints:
+                    nullable: false
+                  type: varchar(100)
+                  remarks: "Socket"
+              - column:
+                  name: family
+                  constraints:
+                    nullable: false
+                  type: varchar(100)
+                  remarks: "Family"
+              - column:
+                  name: number_of_cores
+                  constraints:
+                    nullable: false
+                  type: int
+                  remarks: "Number of cores"
+              - column:
+                  name: integrated_graphic_core_name
+                  constraints:
+                    nullable: false
+                  type: varchar(100)
+                  remarks: "Integrated graphic core name"
+              - column:
+                  name: release_year
+                  constraints:
+                    nullable: false
+                  type: int
+                  remarks: "Release year"
+              - column:
+                  name: ram
+                  type: varchar(100)
+                  remarks: "Ram"
+              - column:
+                  name: base_frequency
+                  type: int
+                  remarks: "Base frequency value"
+              - column:
+                  name: tdp
+                  type: int
+                  constraints:
+                    nullable: false
+                  remarks: "TDP"
+              - column:
+                  name: technical_process
+                  type: int
+                  constraints:
+                    nullable: false
+                  remarks: "Technical process"

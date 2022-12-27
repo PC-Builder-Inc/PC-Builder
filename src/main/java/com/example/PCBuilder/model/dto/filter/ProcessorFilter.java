@@ -12,8 +12,6 @@ public class ProcessorFilter {
 
     private Set<String> ids;
 
-    private Set<String> externalIds;
-
     private Set<Socket> sockets;
 
     private Set<String> families;

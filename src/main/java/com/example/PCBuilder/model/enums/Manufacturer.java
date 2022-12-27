@@ -9,6 +9,15 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 @Getter
 public enum Manufacturer {
+    //PowerSupplyUnit
+    COUGAR("Cougar"),
+    //Motherboard
+    GIGABYTE("GIGABYTE"),
+    //RAM
+    KINGSTON("Kingston"),
+    //Case
+    AEROCOOL("AeroCool"),
+    //Processor
     INTEL("Intel"),
     AMD("AMD"),
     MSI("MSI");
