@@ -3,7 +3,9 @@ package com.example.PCBuilder.controller;
 import com.example.PCBuilder.model.dto.RamDto;
 import com.example.PCBuilder.model.dto.filter.RamFilter;
 import com.example.PCBuilder.service.RamService;
+import com.example.PCBuilder.service.builder.api.BuilderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +22,8 @@ import java.util.Optional;
 public class RamController {
 
     private final RamService ramService;
+    @Autowired
+    private final BuilderService builderService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces =
             MediaType.APPLICATION_JSON_VALUE)

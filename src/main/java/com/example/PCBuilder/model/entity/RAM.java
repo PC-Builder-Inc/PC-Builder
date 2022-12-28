@@ -21,4 +21,7 @@ public class RAM extends BaseData {
 
  @Column(name = "FREQUENCYRAM")
  private FrequencyRAM frequencyRAM;
+
+ @Column(name = "MEMORYSIZE")
+ private int memorySize;
 }

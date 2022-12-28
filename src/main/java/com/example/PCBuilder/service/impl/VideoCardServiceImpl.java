@@ -1,15 +1,10 @@
 package com.example.PCBuilder.service.impl;
 
-import com.example.PCBuilder.model.dto.RamDto;
 import com.example.PCBuilder.model.dto.VideoCardDto;
 import com.example.PCBuilder.model.dto.filter.VideoCardFilter;
-import com.example.PCBuilder.model.entity.RAM;
 import com.example.PCBuilder.model.entity.VideoCard;
-import com.example.PCBuilder.model.mapper.ProcessorMapper;
 import com.example.PCBuilder.model.mapper.VideoCardMapper;
-import com.example.PCBuilder.repository.CaseRepository;
 import com.example.PCBuilder.repository.VideoCardRepository;
-import com.example.PCBuilder.repository.specification.ProcessorSpecification;
 import com.example.PCBuilder.repository.specification.VideoCardSpecification;
 import com.example.PCBuilder.service.MessageService;
 import com.example.PCBuilder.service.VideoCardService;

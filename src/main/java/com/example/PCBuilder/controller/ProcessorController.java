@@ -4,8 +4,10 @@ import com.example.PCBuilder.model.dto.ProcessorDto;
 import com.example.PCBuilder.model.dto.filter.ProcessorFilter;
 import com.example.PCBuilder.model.entity.Processor;
 import com.example.PCBuilder.service.ProcessorService;
+import com.example.PCBuilder.service.builder.api.BuilderService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Parameter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,6 +26,8 @@ import java.util.Optional;
 public class ProcessorController {
 
     private final ProcessorService processorService;
+    @Autowired
+    private final BuilderService builderService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces =
             MediaType.APPLICATION_JSON_VALUE)

@@ -27,4 +27,6 @@ public class ProcessorDto {
     private String name;
 
     private Manufacturer manufacturer;
+
+    private String id;
 }
