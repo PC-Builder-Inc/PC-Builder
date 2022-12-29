@@ -10,6 +10,9 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class BuilderService implements com.example.PCBuilder.service.builder.api.BuilderService {
@@ -26,27 +29,28 @@ public class BuilderService implements com.example.PCBuilder.service.builder.api
     public BuilderDto pcBuilder(BuilderRequestDto builderRequestDto) {
         pcBuilder = transformBuilderRequestToBuilder(builderRequestDto);
         String result = null;
+        Set<String> setError = new HashSet<>();
         if (isHaveProcessor()) {
             result = pcBuilderProcessor(pcBuilder.getProcessorId());
-            if (StringUtils.isNotBlank(result)) return new BuilderDto(result);
+            if (StringUtils.isNotBlank(result)) setError.add(result);
         }
         if (isHaveMotherboard()) {
             result = pcBuilderMotherboard(pcBuilder.getMotherboardId());
-            if (StringUtils.isNotBlank(result)) return new BuilderDto(result);
+            if (StringUtils.isNotBlank(result)) setError.add(result);
         }
         if (isHaveVideoCard()) {
             result = pcBuilderVideoCard(pcBuilder.getVideoCardId());
-            if (StringUtils.isNotBlank(result)) return new BuilderDto(result);
+            if (StringUtils.isNotBlank(result)) setError.add(result);
         }
         if (isHaveRam()) {
             result = pcBuilderRam(pcBuilder.getRamId());
-            if (StringUtils.isNotBlank(result)) return new BuilderDto(result);
+            if (StringUtils.isNotBlank(result)) setError.add(result);
         }
         if (isHavePowerSupplyUnit()) {
             result = pcBuilderPowerSupplyUnit(pcBuilder.getPowerSupplyUnitId());
-            if (StringUtils.isNotBlank(result)) return new BuilderDto(result);
+            if (StringUtils.isNotBlank(result)) setError.add(result);
         }
-        return new BuilderDto(result);
+        return new BuilderDto(setError.isEmpty() ? null : getResultErrorString(setError));
     }
 
     public String pcBuilderProcessor(String id) {
@@ -194,10 +198,10 @@ public class BuilderService implements com.example.PCBuilder.service.builder.api
     }
 
     private String equalsRamParams(RAM ram, Motherboard motherboard) {
-        return ram.getFrequencyRAM().getCode() > motherboard.getFrequencyRAM().getCode() ?
+        return ram.getFrequencyRAM().getCode() < motherboard.getFrequencyRAM().getCode() ?
                 (ram.getRamTechnology().equals(motherboard.getRamTechnology()) ?
                         (ram.getMemorySize() < motherboard.getMaxRam() ? null : "ОЗУ больше, чем поддерживаемой памяти у материнской платы") : "Технология ОЗУ не соответствует технологии ОЗУ материнской платы") :
-                "Частота ОЗУ меньше частоты поддерживаемой ОЗУ материнской платы";
+                "Частота ОЗУ больше частоты поддерживаемой ОЗУ материнской платы";
     }
 
     private void incrementProgressBar() {
@@ -215,6 +219,13 @@ public class BuilderService implements com.example.PCBuilder.service.builder.api
                 .build();
     }
 
+    private String getResultErrorString(Set<String> setError) {
+      StringBuilder stringBuilder = new StringBuilder();
+      for (String value : setError) {
+          stringBuilder.append(value).append("\n");
+      }
+      return stringBuilder.toString();
+    }
     /**
      * Метод интересный
      public String pcBuild(BaseData accessory) {
