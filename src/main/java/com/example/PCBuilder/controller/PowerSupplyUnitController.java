@@ -1,6 +1,8 @@
 package com.example.PCBuilder.controller;
 
 import com.example.PCBuilder.model.dto.PowerSupplyUnitDto;
+import com.example.PCBuilder.model.dto.builder.BuilderDto;
+import com.example.PCBuilder.model.dto.builder.BuilderRequestDto;
 import com.example.PCBuilder.model.dto.filter.PowerSupplyUnitFilter;
 import com.example.PCBuilder.service.PowerSupplyUnitService;
 import com.example.PCBuilder.service.builder.api.BuilderService;
@@ -76,6 +78,11 @@ public class PowerSupplyUnitController {
     @GetMapping("/search-by-name")
     public List<PowerSupplyUnitDto> searchByName(@RequestParam String name){
         return powerSupplyUnitService.searchByName(name);
+    }
+
+    @PostMapping("/build")
+    public BuilderDto buildCase(@RequestBody(required = true) BuilderRequestDto builderRequestDto) {
+        return builderService.pcBuilder(builderRequestDto);
     }
 
 }

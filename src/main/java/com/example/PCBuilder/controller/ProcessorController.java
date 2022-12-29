@@ -1,6 +1,8 @@
 package com.example.PCBuilder.controller;
 
 import com.example.PCBuilder.model.dto.ProcessorDto;
+import com.example.PCBuilder.model.dto.builder.BuilderDto;
+import com.example.PCBuilder.model.dto.builder.BuilderRequestDto;
 import com.example.PCBuilder.model.dto.filter.ProcessorFilter;
 import com.example.PCBuilder.model.entity.Processor;
 import com.example.PCBuilder.service.ProcessorService;
@@ -77,4 +79,8 @@ public class ProcessorController {
         processorService.delete(processorId);
     }
 
+    @PostMapping("/build")
+    public BuilderDto buildCase(@RequestBody(required = true) BuilderRequestDto builderRequestDto) {
+        return builderService.pcBuilder(builderRequestDto);
+    }
 }

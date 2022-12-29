@@ -3,6 +3,7 @@ package com.example.PCBuilder.controller;
 import com.example.PCBuilder.model.dto.CaseDto;
 import com.example.PCBuilder.model.dto.ProcessorDto;
 import com.example.PCBuilder.model.dto.builder.BuilderDto;
+import com.example.PCBuilder.model.dto.builder.BuilderRequestDto;
 import com.example.PCBuilder.model.dto.filter.CaseFilter;
 import com.example.PCBuilder.model.dto.filter.ProcessorFilter;
 import com.example.PCBuilder.service.CaseService;
@@ -82,8 +83,8 @@ public class CaseController {
     }
 
     @PostMapping("/build")
-    public BuilderDto buildCase() {
-        return null;
+    public BuilderDto buildCase(@RequestBody(required = true) BuilderRequestDto builderRequestDto) {
+        return builderService.pcBuilder(builderRequestDto);
     }
 
 }

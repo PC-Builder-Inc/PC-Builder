@@ -2,6 +2,7 @@ package com.example.PCBuilder.service.builder.logic;
 
 import com.example.PCBuilder.model.dto.*;
 import com.example.PCBuilder.model.dto.builder.BuilderDto;
+import com.example.PCBuilder.model.dto.builder.BuilderRequestDto;
 import com.example.PCBuilder.model.entity.*;
 import com.example.PCBuilder.model.mapper.*;
 import com.example.PCBuilder.repository.*;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 @Service
 @RequiredArgsConstructor
 public class BuilderService implements com.example.PCBuilder.service.builder.api.BuilderService {
-    @Autowired
+
     private PcBuilder pcBuilder;
 
     private final ProcessorRepository processorRepository;
@@ -25,6 +26,7 @@ public class BuilderService implements com.example.PCBuilder.service.builder.api
     private final VideoCardRepository videoCardRepository;
     private final RamRepository ramRepository;
     private final PowerSupplyUnitRepository powerSupplyUnitRepository;
+    private final CaseRepository caseRepository;
 
     private final ProcessorMapper processorMapper;
     private final MotherboardMapper motherboardMapper;
@@ -33,74 +35,83 @@ public class BuilderService implements com.example.PCBuilder.service.builder.api
     private final PowerSupplyUnitMapper powerSupplyUnitMapper;
     private final CaseMapper caseMapper;
 
-
     @Override
-    public BuilderDto pcBuilder(ProcessorDto processorDto) {
-        Processor processor = processorMapper.toEntity(processorDto);
-        if (isHaveMotherboard() || isHaveVideoCard() || isHavePowerSupplyUnit()) {
-            String result = logicForProcessor(processor);
-            if (StringUtils.isNotBlank(result)) return new BuilderDto(result, getProgressBarValue());
+    public BuilderDto pcBuilder(BuilderRequestDto builderRequestDto) {
+        pcBuilder = transformBuilderRequestToBuilder(builderRequestDto);
+        String result = null;
+        if (isHaveProcessor()) {
+            result = pcBuilderProcessor(pcBuilder.getProcessorId());
+            if (StringUtils.isNotBlank(result)) return new BuilderDto(result);
         }
-        pcBuilder.setProcessorId(processor.getId());
-        incrementProgressBar();
-        return new BuilderDto(null, getProgressBarValue());
-    }
-
-    @Override
-    public BuilderDto pcBuilder(MotherboardDto motherboardDto) {
-        Motherboard motherboard = motherboardMapper.toEntity(motherboardDto);
-        if (isHaveRam() || isHaveProcessor()) {
-            String result = logicForMotherboard(motherboard);
-            if (StringUtils.isNotBlank(result)) return new BuilderDto(result, getProgressBarValue());
-        }
-        pcBuilder.setMotherboardId(motherboard.getId());
-        incrementProgressBar();
-        return new BuilderDto(null, getProgressBarValue());
-    }
-
-    @Override
-    public BuilderDto pcBuilder(RamDto ramDto) {
-        RAM ram = ramMapper.toEntity(ramDto);
         if (isHaveMotherboard()) {
-            String result = logicForRam(ram);
-            if (StringUtils.isNotBlank(result)) return new BuilderDto(result, getProgressBarValue());
+            result = pcBuilderMotherboard(pcBuilder.getMotherboardId());
+            if (StringUtils.isNotBlank(result)) return new BuilderDto(result);
         }
-        pcBuilder.setRamId(ram.getId());
-        incrementProgressBar();
-        return new BuilderDto(null, getProgressBarValue());
-    }
-
-    @Override
-    public BuilderDto pcBuilder(VideoCardDto videoCardDto) {
-        VideoCard videoCard = videoCardMapper.toEntity(videoCardDto);
+        if (isHaveVideoCard()) {
+            result = pcBuilderVideoCard(pcBuilder.getProcessorId());
+            if (StringUtils.isNotBlank(result)) return new BuilderDto(result);
+        }
+        if (isHaveRam()) {
+            result = pcBuilderRam(pcBuilder.getProcessorId());
+            if (StringUtils.isNotBlank(result)) return new BuilderDto(result);
+        }
         if (isHavePowerSupplyUnit()) {
-            String result = logicForVideoCard(videoCard);
-            if (StringUtils.isNotBlank(result)) return new BuilderDto(result, getProgressBarValue());
+            result = pcBuilderPowerSupplyUnit(pcBuilder.getProcessorId());
+            if (StringUtils.isNotBlank(result)) return new BuilderDto(result);
         }
-        pcBuilder.setVideoCardId(videoCard.getId());
-        incrementProgressBar();
-        return new BuilderDto(null, getProgressBarValue());
+        return new BuilderDto(result);
     }
 
-    @Override
-    public BuilderDto pcBuilder(PowerSupplyUnitDto powerSupplyUnitDto) {
-        PowerSupplyUnit powerSupplyUnit = powerSupplyUnitMapper.toEntity(powerSupplyUnitDto);
+    public String pcBuilderProcessor(String id) {
+        Processor processor = processorRepository.findById(id).get();
+        String result = null;
+        if (isHaveMotherboard() || isHaveVideoCard() || isHavePowerSupplyUnit()) {
+            result = logicForProcessor(processor);
+        }
+        return result;
+    }
+
+    public String pcBuilderMotherboard(String id) {
+        Motherboard motherboard = motherboardRepository.findById(id).get();
+        String result = null;
+        if (isHaveRam() || isHaveProcessor()) {
+            result = logicForMotherboard(motherboard);
+        }
+        return result;
+    }
+
+    public String pcBuilderRam(String id) {
+        RAM ram = ramRepository.findById(id).get();
+        String result = null;
+        if (isHaveMotherboard()) {
+            result = logicForRam(ram);
+        }
+        return result;
+    }
+
+    public String pcBuilderVideoCard(String id) {
+        VideoCard videoCard = videoCardRepository.findById(id).get();
+        String result = null;
+        if (isHavePowerSupplyUnit()) {
+            result = logicForVideoCard(videoCard);
+        }
+        return result;
+    }
+
+    public String pcBuilderPowerSupplyUnit(String id) {
+        PowerSupplyUnit powerSupplyUnit = powerSupplyUnitRepository.findById(id).get();
+        String result = null;
         if (isHaveVideoCard() || isHaveProcessor()) {
-            String result = logicForPowerSupplyUnit(powerSupplyUnit);
-            if (StringUtils.isNotBlank(result)) return new BuilderDto(result, getProgressBarValue());
+            result = logicForPowerSupplyUnit(powerSupplyUnit);
         }
-        pcBuilder.setPowerSupplyUnitId(powerSupplyUnit.getId());
-        incrementProgressBar();
-        return new BuilderDto(null, getProgressBarValue());
+        return result;
     }
 
-    @Override
-    public BuilderDto pcBuilder(CaseDto caseDto) {
-        Case aCase = caseMapper.toEntity(caseDto);
-        pcBuilder.setCaseId(aCase.getId());
-        incrementProgressBar();
-        return new BuilderDto(null, getProgressBarValue());
+    public String pcBuilderCase(String id) {
+        return null;
     }
+
+
 
     private int getProgressBarValue() {
         return pcBuilder.getProgressValue();
@@ -214,6 +225,17 @@ public class BuilderService implements com.example.PCBuilder.service.builder.api
 
     private void incrementProgressBar() {
       pcBuilder.incrementProgressValue();
+    }
+
+    private PcBuilder transformBuilderRequestToBuilder(BuilderRequestDto builderRequestDto) {
+        return PcBuilder.builder()
+                .motherboardId(builderRequestDto.getMotherboardId())
+                .caseId(builderRequestDto.getCaseId())
+                .powerSupplyUnitId(builderRequestDto.getPowerSupplyUnitId())
+                .processorId(builderRequestDto.getProcessorId())
+                .videoCardId(builderRequestDto.getVideoCardId())
+                .ramId(builderRequestDto.getRamId())
+                .build();
     }
 
     /**

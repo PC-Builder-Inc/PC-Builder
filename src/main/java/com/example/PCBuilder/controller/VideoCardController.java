@@ -1,6 +1,8 @@
 package com.example.PCBuilder.controller;
 
 import com.example.PCBuilder.model.dto.VideoCardDto;
+import com.example.PCBuilder.model.dto.builder.BuilderDto;
+import com.example.PCBuilder.model.dto.builder.BuilderRequestDto;
 import com.example.PCBuilder.model.dto.filter.VideoCardFilter;
 import com.example.PCBuilder.service.VideoCardService;
 import com.example.PCBuilder.service.builder.api.BuilderService;
@@ -78,4 +80,8 @@ public class VideoCardController {
         return videoCardService.searchByName(name);
     }
 
+    @PostMapping("/build")
+    public BuilderDto buildCase(@RequestBody(required = true) BuilderRequestDto builderRequestDto) {
+        return builderService.pcBuilder(builderRequestDto);
+    }
 }

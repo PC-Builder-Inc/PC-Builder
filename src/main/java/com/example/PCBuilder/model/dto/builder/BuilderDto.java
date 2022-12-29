@@ -9,5 +9,4 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BuilderDto {
     private String error;
-    private int progressBar;
 }
