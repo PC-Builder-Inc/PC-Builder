@@ -7,10 +7,10 @@ import lombok.Data;
 
 @Data
 public class RamDto {
+    private String id;
     private MemoryTechnology ramTechnology;
     private FrequencyRAM frequencyRAM;
     private String name;
     private Manufacturer manufacturer;
     private int price;
-    private String id;
 }

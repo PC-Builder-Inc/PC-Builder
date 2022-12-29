@@ -6,27 +6,16 @@ import lombok.Data;
 
 @Data
 public class ProcessorDto {
-    private Socket socket;
-
-    private String family;
-
-    private int numberOfCores;
-
-    private String integratedGraphicCoreName;
-
-    private int releaseYear;
-
-    private int baseFrequency;
-
-    private int tdp;
-
-    private int technicalProcess;
-
-    private int price;
-
-    private String name;
-
-    private Manufacturer manufacturer;
-
     private String id;
+    private Socket socket;
+    private String family;
+    private int numberOfCores;
+    private String integratedGraphicCoreName;
+    private int releaseYear;
+    private int baseFrequency;
+    private int tdp;
+    private int technicalProcess;
+    private int price;
+    private String name;
+    private Manufacturer manufacturer;
 }

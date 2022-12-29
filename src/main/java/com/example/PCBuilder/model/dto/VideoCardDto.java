@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class VideoCardDto {
+    private String id;
     private int gpuBaseClock;
     private int gpuBoostClock;
     private int vRam;
@@ -14,5 +15,4 @@ public class VideoCardDto {
     private String name;
     private Manufacturer manufacturer;
     private int price;
-    private String id;
 }

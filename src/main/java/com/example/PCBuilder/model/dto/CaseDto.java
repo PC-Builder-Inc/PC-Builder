@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 public class CaseDto {
+    private String id;
     private Color color;
     private String name;
     private Manufacturer manufacturer;
     private int price;
-    private String id;
 }

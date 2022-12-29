@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 public class PowerSupplyUnitDto {
+    private String id;
     private int power;
     private String name;
     private Manufacturer manufacturer;
     private int price;
-    private String id;
 }

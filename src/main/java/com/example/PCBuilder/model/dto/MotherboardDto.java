@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class MotherboardDto {
+    private String id;
     private Socket socket;
     private MemoryTechnology ramTechnology;
     private String chipsetType;
@@ -16,5 +17,4 @@ public class MotherboardDto {
     private String name;
     private Manufacturer manufacturer;
     private int price;
-    private String id;
 }
