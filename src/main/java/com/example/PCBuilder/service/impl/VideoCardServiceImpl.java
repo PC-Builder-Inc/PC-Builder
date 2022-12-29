@@ -2,6 +2,7 @@ package com.example.PCBuilder.service.impl;
 
 import com.example.PCBuilder.model.dto.VideoCardDto;
 import com.example.PCBuilder.model.dto.filter.VideoCardFilter;
+import com.example.PCBuilder.model.entity.BaseData;
 import com.example.PCBuilder.model.entity.VideoCard;
 import com.example.PCBuilder.model.mapper.VideoCardMapper;
 import com.example.PCBuilder.repository.VideoCardRepository;
@@ -11,10 +12,15 @@ import com.example.PCBuilder.service.VideoCardService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.PCBuilder.config.ConfigConstants.PAGE_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -50,17 +56,29 @@ public class VideoCardServiceImpl implements VideoCardService {
 
     @Override
     public Page<VideoCardDto> getByFilter(Optional<VideoCardFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE);
+        return getPage(pageable, filter);
     }
 
     @Override
     public Page<VideoCardDto> getByFilterWithSortByPriceInc(Optional<VideoCardFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE, Sort.by(BaseData.BaseDataFields.name));
+        return getPage(pageable, filter);
+    }
+
+    public Page<VideoCardDto> getPage(Pageable pageable, Optional<VideoCardFilter> filter) {
+        if (filter.isEmpty()) {
+            return videoCardRepository.findAll(pageable).map(p -> mapper.toDto(p));
+        } else {
+            return videoCardRepository.findAll(specification.byFilter(filter.get()), pageable)
+                    .map(p -> mapper.toDto(p));
+        }
     }
 
     @Override
     public Page<VideoCardDto> getByFilterWithSortByNameInc(Optional<VideoCardFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE, Sort.by(BaseData.BaseDataFields.price));
+        return getPage(pageable, filter);
     }
 
     @Override

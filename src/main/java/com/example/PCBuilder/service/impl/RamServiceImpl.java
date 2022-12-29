@@ -2,6 +2,7 @@ package com.example.PCBuilder.service.impl;
 
 import com.example.PCBuilder.model.dto.RamDto;
 import com.example.PCBuilder.model.dto.filter.RamFilter;
+import com.example.PCBuilder.model.entity.BaseData;
 import com.example.PCBuilder.model.entity.RAM;
 import com.example.PCBuilder.model.mapper.RamMapper;
 import com.example.PCBuilder.repository.RamRepository;
@@ -11,10 +12,15 @@ import com.example.PCBuilder.service.RamService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.PCBuilder.config.ConfigConstants.PAGE_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -50,17 +56,29 @@ public class RamServiceImpl implements RamService {
 
     @Override
     public Page<RamDto> getByFilter(Optional<RamFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE);
+        return getPage(pageable, filter);
     }
 
     @Override
     public Page<RamDto> getByFilterWithSortByPriceInc(Optional<RamFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE, Sort.by(BaseData.BaseDataFields.price));
+        return getPage(pageable, filter);
     }
 
     @Override
     public Page<RamDto> getByFilterWithSortByNameInc(Optional<RamFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE, Sort.by(BaseData.BaseDataFields.name));
+        return getPage(pageable, filter);
+    }
+
+    public Page<RamDto> getPage(Pageable pageable, Optional<RamFilter> filter) {
+        if (filter.isEmpty()) {
+            return ramRepository.findAll(pageable).map(p -> mapper.toDto(p));
+        } else {
+            return ramRepository.findAll(specification.byFilter(filter.get()), pageable)
+                    .map(p -> mapper.toDto(p));
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.PCBuilder.service.impl;
 
 import com.example.PCBuilder.model.dto.PowerSupplyUnitDto;
 import com.example.PCBuilder.model.dto.filter.PowerSupplyUnitFilter;
+import com.example.PCBuilder.model.entity.BaseData;
 import com.example.PCBuilder.model.entity.PowerSupplyUnit;
 import com.example.PCBuilder.model.mapper.PowerSupplyUnitMapper;
 import com.example.PCBuilder.repository.PowerSupplyUnitRepository;
@@ -11,10 +12,15 @@ import com.example.PCBuilder.service.PowerSupplyUnitService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.PCBuilder.config.ConfigConstants.PAGE_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -50,17 +56,29 @@ public class PowerSupplyUnitServiceImpl implements PowerSupplyUnitService {
 
     @Override
     public Page<PowerSupplyUnitDto> getByFilter(Optional<PowerSupplyUnitFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE);
+        return getPage(pageable, filter);
     }
 
     @Override
     public Page<PowerSupplyUnitDto> getByFilterWithSortByPriceInc(Optional<PowerSupplyUnitFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE, Sort.by(BaseData.BaseDataFields.price));
+        return getPage(pageable, filter);
     }
 
     @Override
     public Page<PowerSupplyUnitDto> getByFilterWithSortByNameInc(Optional<PowerSupplyUnitFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE, Sort.by(BaseData.BaseDataFields.name));
+        return getPage(pageable, filter);
+    }
+
+    public Page<PowerSupplyUnitDto> getPage(Pageable pageable, Optional<PowerSupplyUnitFilter> filter) {
+        if (filter.isEmpty()) {
+            return powerSupplyUnitRepository.findAll(pageable).map(p -> mapper.toDto(p));
+        } else {
+            return powerSupplyUnitRepository.findAll(specification.byFilter(filter.get()), pageable)
+                    .map(p -> mapper.toDto(p));
+        }
     }
 
     @Override

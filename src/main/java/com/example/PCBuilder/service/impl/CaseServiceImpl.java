@@ -2,6 +2,7 @@ package com.example.PCBuilder.service.impl;
 
 import com.example.PCBuilder.model.dto.CaseDto;
 import com.example.PCBuilder.model.dto.filter.CaseFilter;
+import com.example.PCBuilder.model.entity.BaseData;
 import com.example.PCBuilder.model.entity.Case;
 import com.example.PCBuilder.model.mapper.CaseMapper;
 import com.example.PCBuilder.repository.CaseRepository;
@@ -12,10 +13,15 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.PCBuilder.config.ConfigConstants.PAGE_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -53,17 +59,29 @@ public class CaseServiceImpl implements CaseService {
 
     @Override
     public Page<CaseDto> getByFilter(Optional<CaseFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE);
+        return getPage(pageable, filter);
     }
 
     @Override
     public Page<CaseDto> getByFilterWithSortByPriceInc(Optional<CaseFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE, Sort.by(BaseData.BaseDataFields.price));
+        return getPage(pageable, filter);
     }
 
     @Override
     public Page<CaseDto> getByFilterWithSortByNameInc(Optional<CaseFilter> filter, int offset) {
-        return null;
+        Pageable pageable = PageRequest.of(offset, PAGE_SIZE, Sort.by(BaseData.BaseDataFields.name));
+        return getPage(pageable, filter);
+    }
+
+    public Page<CaseDto> getPage(Pageable pageable, Optional<CaseFilter> filter) {
+        if (filter.isEmpty()) {
+            return caseRepository.findAll(pageable).map(p -> mapper.toDto(p));
+        } else {
+            return caseRepository.findAll(specification.byFilter(filter.get()), pageable)
+                    .map(p -> mapper.toDto(p));
+        }
     }
 
     @Override

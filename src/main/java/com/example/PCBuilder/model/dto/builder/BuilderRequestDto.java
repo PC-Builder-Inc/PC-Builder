@@ -1,6 +1,5 @@
 package com.example.PCBuilder.model.dto.builder;
 
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
