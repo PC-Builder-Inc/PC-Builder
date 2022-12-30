@@ -84,4 +84,10 @@ public class ProcessorController {
     public BuilderDto buildCase(@RequestBody(required = true) BuilderRequestDto builderRequestDto) {
         return builderService.pcBuilder(builderRequestDto);
     }
+
+    @GetMapping("/search-by-name")
+    public List<ProcessorDto> searchByName(@RequestParam String name){
+        return processorService.searchByName(name);
+    }
+
 }

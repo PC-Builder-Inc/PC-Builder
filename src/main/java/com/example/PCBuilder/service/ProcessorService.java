@@ -16,4 +16,5 @@ public interface ProcessorService {
     Page<ProcessorDto> getByFilterWithSortByPriceInc(Optional<ProcessorFilter> filter, int offset);
     Page<ProcessorDto> getByFilterWithSortByNameInc(Optional<ProcessorFilter> filter, int offset);
     void delete(String id);
+    List<ProcessorDto> searchByName(String name);
 }

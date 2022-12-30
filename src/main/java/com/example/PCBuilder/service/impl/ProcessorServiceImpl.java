@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 import static com.example.PCBuilder.config.ConfigConstants.PAGE_SIZE;
 
 @Service
@@ -31,6 +30,12 @@ public class ProcessorServiceImpl implements ProcessorService {
     private final ProcessorMapper mapper;
     private final ProcessorSpecification specification;
     private final MessageService messageService;
+
+    @Override
+    public List<ProcessorDto> searchByName(String name) {
+        List<ProcessorDto> dtos = obtainAll();
+        return dtos.stream().filter(dto -> dto.getName().contains(name)).toList();
+    }
 
     @Override
     @Transactional

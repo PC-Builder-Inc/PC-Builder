@@ -1,6 +1,7 @@
 package com.example.PCBuilder;
 
 import com.example.PCBuilder.model.dto.ProcessorDto;
+import com.example.PCBuilder.model.dto.filter.ProcessorFilter;
 import com.example.PCBuilder.model.entity.Processor;
 import com.example.PCBuilder.repository.ProcessorRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -51,5 +52,4 @@ public class ProcessorCreateTest {
         assertNotNull(actual);
         Assertions.assertEquals(expected, actual);
     }
-
 }

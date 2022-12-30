@@ -1,5 +1,7 @@
 package com.example.PCBuilder.model.dto.filter;
 
+import com.example.PCBuilder.model.dto.PcDto;
+import com.example.PCBuilder.model.enums.Manufacturer;
 import com.example.PCBuilder.model.enums.Socket;
 import lombok.*;
 import java.util.Set;
@@ -20,4 +22,7 @@ public class ProcessorFilter {
 
     private Set<Integer> tdpValues;
 
+    private Set<Manufacturer> manufacturers;
+
+    private PcDto pcDto;
 }

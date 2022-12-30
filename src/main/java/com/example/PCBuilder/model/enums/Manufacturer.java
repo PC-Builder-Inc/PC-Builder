@@ -11,16 +11,20 @@ import java.util.Arrays;
 public enum Manufacturer {
     //PowerSupplyUnit
     COUGAR("Cougar"),
+    DEEPCOOL("DeepCool"),
+    SUPERFLOWER("Super flower"),
     //Motherboard
     GIGABYTE("GIGABYTE"),
     //RAM
     KINGSTON("Kingston"),
     //Case
     AEROCOOL("AeroCool"),
+    THERMALTAKE("Thermaltake"),
     //Processor
     INTEL("Intel"),
     AMD("AMD"),
-    MSI("MSI");
+    MSI("MSI"),
+    NVIDIA("Nvidia");
 
     final String name;
 
